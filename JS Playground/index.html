@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive JS Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>JS Playground</h1>
+            <p>JavaScript - Perancangan Web</p>
+        </header>
+
+        <div class="grid">
+            <button onclick="jalankanSapaan()">1. Sapaan Prompt</button>
+            <button onclick="jalankanIfElse()">2. Tes Logika</button>
+            <button onclick="jalankanFor()">3. Looping (For)</button>
+            <button onclick="jalankanMath()">4. Matematika</button>
+            <button onclick="jalankanTipeData()">5. Cek Tipe Data</button>
+        </div>
+
+        <div id="layar-hasil" class="output-screen">
+            > Siap menerima perintah... Klik salah satu tombol di atas.
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
