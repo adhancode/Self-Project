@@ -1,0 +1,221 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #fcf6e8;
+    font-family: 'Merriweather', serif;
+    color: #222;
+    line-height: 1.6;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    text-align: center;
+    width: 100%;
+    max-width: 1000px;
+    padding: 40px 0;
+    margin-bottom: 30px;
+    border-bottom: 4px double #222;
+    position: relative;
+}
+
+header h1 {
+    font-size: 3.5rem;
+    color: #222;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -1px;
+}
+
+header::after {
+    content: attr(data-date);
+    display: block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #555;
+    margin-top: 10px;
+    letter-spacing: 1px;
+}
+
+main {
+    width: 100%;
+    max-width: 1000px;
+    background: #fff;
+    padding: 30px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ddd;
+}
+
+section {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h2 {
+    width: 100%;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #222;
+    margin-bottom: 20px;
+    padding-bottom: 5px;
+    text-transform: capitalize;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+input[type="text"],
+input[type="number"] {
+    padding: 10px;
+    border: 2px solid #ddd;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+}
+
+.checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+}
+
+button {
+    cursor: pointer;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    transition: 0.2s;
+}
+
+#bookFormSubmit,
+#searchSubmit {
+    background: #222;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+#bookFormSubmit:active,
+#searchSubmit:active {
+    transform: scale(0.98);
+}
+
+.book-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100% !important;
+    align-items: center;
+}
+
+[data-testid="bookItem"] {
+    border: 3px solid #eee;
+    padding: 20px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    width: 100% !important;
+    max-width: 800px;
+}
+
+[data-testid="bookItemTitle"] {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #222;
+    border-bottom: 3px solid #eee;
+    width: 100%;
+}
+
+[data-testid="bookItem"]>div:last-child {
+    margin-top: 15px;
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    width: 100%;
+}
+
+
+/* Styling Tombol Aksi di Item Buku (Seragam Hitam & Interaktif) */
+
+[data-testid="bookItem"] button {
+    padding: 6px 15px;
+    font-size: 0.75rem;
+    border: 2px solid #222;
+    background: #fff;
+    color: #222;
+    border-radius: 20px;
+    white-space: nowrap;
+    width: auto !important;
+    transition: all 0.2s ease-in-out;
+}
+
+
+/* Hover: Latar hitam, teks putih */
+
+[data-testid="bookItem"] button:hover {
+    background-color: #222;
+    color: #fff;
+}
+
+
+/* Active: Efek ditekan (mengecil) */
+
+[data-testid="bookItem"] button:active {
+    transform: scale(0.92);
+    background-color: #000;
+}
+
+#incompleteBookList,
+#completeBookList {
+    width: 100% !important;
+}
+
+#incompleteBookList [data-testid="bookItem"],
+#completeBookList [data-testid="bookItem"] {
+    width: 100% !important;
+}
+
+@media (max-width: 600px) {
+    header h1 {
+        font-size: 2.5rem;
+    }
+    [data-testid="bookItem"] {
+        width: 100% !important;
+    }
+}
