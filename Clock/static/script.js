@@ -14,7 +14,7 @@ function updateClock() {
 
 function drawFace(ctx, radius) {
     ctx.clearRect(-radius, -radius, canvas.width, canvas.height);
-    
+
     // Garis lingkaran dalam
     ctx.beginPath();
     ctx.arc(0, 0, radius * 0.95, 0, 2 * Math.PI);
@@ -36,7 +36,7 @@ function drawNumbers(ctx, radius) {
     ctx.textAlign = "center";
     ctx.fillStyle = '#1a110a'; // Warna teks hitam kecoklatan
 
-    for(let num = 0; num < 12; num++) {
+    for (let num = 0; num < 12; num++) {
         let angle = num * Math.PI / 6 - Math.PI / 2;
         let x = Math.cos(angle) * (radius * 0.85);
         let y = Math.sin(angle) * (radius * 0.85);
@@ -76,11 +76,11 @@ function drawTime(ctx, radius) {
     let second = now.getSeconds();
 
     // Jarum Jam (Hour)
-    let hourAngle = (hour + minute/60) * Math.PI / 6;
+    let hourAngle = (hour + minute / 60) * Math.PI / 6;
     drawHand(ctx, hourAngle, radius * 0.5, radius * 0.06, '#1a110a');
 
     // Jarum Menit (Minute)
-    let minuteAngle = (minute + second/60) * Math.PI / 30;
+    let minuteAngle = (minute + second / 60) * Math.PI / 30;
     drawHand(ctx, minuteAngle, radius * 0.75, radius * 0.04, '#1a110a');
 
     // Jarum Detik (Second) - Opsional, di gambar antik tidak ada merah, tapi kita buat tipis
