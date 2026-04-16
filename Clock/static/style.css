@@ -1,5 +1,6 @@
 body {
-    background-color: #2c2724; /* Warna latar gelap */
+    background-color: #2c2724;
+    /* Warna latar gelap */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,7 +13,7 @@ body {
     background: radial-gradient(circle, #e6d5b8 0%, #c5a880 70%, #8b6d43 100%);
     border-radius: 50%;
     /* Memberikan efek bayangan dan border gelap */
-    box-shadow: 0 0 20px rgba(0,0,0,0.8), inset 0 0 20px rgba(50,30,10,0.5);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(50, 30, 10, 0.5);
     border: 8px solid #2b1f15;
     padding: 10px;
 }
@@ -20,5 +21,5 @@ body {
 #clockCanvas {
     display: block;
     /* Membuat background canvas transparan agar warna usang dari container terlihat */
-    background-color: transparent; 
+    background-color: transparent;
 }
