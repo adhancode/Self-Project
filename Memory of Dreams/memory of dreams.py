@@ -159,12 +159,39 @@ def parse_tanggal_string(tanggal_str):
     # gagal parse
     return None
 
+def garis():
+    print("─" * 56)
+
+def jeda():
+    input("\nTekan Enter untuk kembali ke menu...")
+
+def input_wajib(prompt):
+    while True:
+        nilai = input(prompt).strip()
+        if nilai:
+            return nilai
+        print("Bagian ini belum diisi. Coba lagi ya.")
+
+def pilih_nomor(prompt, jumlah):
+    while True:
+        pilihan = input(prompt).strip()
+        if pilihan == "0":
+            return None
+        try:
+            nomor = int(pilihan)
+            if 1 <= nomor <= jumlah:
+                return nomor
+        except ValueError:
+            pass
+        print(f"Masukkan nomor 1 sampai {jumlah}, atau 0 untuk batal.")
+
 # Fungsi menulis mimpi (simpan tanggal ISO jika kosong)
 def tambah_mimpi():
-    print("\n=== TULIS MIMPIMU ===")
-    nama = input("Nama kamu: ").strip()
-    mimpi = input("Ceritakan mimpi kamu: ").strip()
-    tanggal = input("Tanggal mimpi: ").strip()
+    print("\n✍️  CERITAKAN MIMPIMU")
+    garis()
+    nama = input_wajib("Namamu: ")
+    mimpi = input_wajib("Apa yang kamu impikan? ")
+    tanggal = input("Tanggal mimpi (kosong = hari ini): ").strip()
 
     if tanggal == "":
         tanggal = datetime.now().strftime("%Y-%m-%d")
@@ -172,11 +199,12 @@ def tambah_mimpi():
     with open(file, "a", encoding="utf-8") as f:
         f.write(f"{nama}|{tanggal}|{mimpi}\n")
 
-    print("✨ Mimpi disimpan!\n")
+    print("\n✨ Mimpimu tersimpan. Terima kasih sudah berbagi!")
 
 # Baca & hentikan daftar mimpi (urut lama->baru)
 def lihat_mimpi(debug=False):
-    print("\n=== DAFTAR MIMPI ===")
+    print("\n🌙 JURNAL MIMPIMU")
+    garis()
     if not os.path.exists(file):
         print("Belum ada file mimpi.\n")
         return []
@@ -214,7 +242,10 @@ def lihat_mimpi(debug=False):
         nama = parts[0] if len(parts) > 0 else ""
         tanggal = parts[1] if len(parts) > 1 else ""
         mimpi = parts[2] if len(parts) > 2 else ""
-        print(f"{i}. {nama} | {tanggal} | {mimpi}")
+        print(f"{i}. {mimpi}")
+        print(f"   Oleh {nama}  ·  {tanggal}")
+        if i < len(sorted_lines):
+            print()
         if debug:
             print(f"   => parsed: {parse_tanggal_string(tanggal)}")
     print()
@@ -224,51 +255,50 @@ def ubah_mimpi():
     data = lihat_mimpi()
     if not data:
         return
-    try:
-        nomor = int(input("Masukkan nomor mimpi yang ingin diubah: ").strip())
-    except:
-        print("Masukan harus angka.\n"); return
-    if not (1 <= nomor <= len(data)):
-        print("Nomor tidak valid.\n"); return
+    nomor = pilih_nomor("Nomor mimpi yang ingin diubah (0 untuk batal): ", len(data))
+    if nomor is None:
+        print("Perubahan dibatalkan.")
+        return
 
-    nama = input("Nama baru: ").strip()
-    mimpi_baru = input("Isi mimpi baru: ").strip()
-    tanggal = input("Tanggal baru (kosong = otomatis): ").strip()
-    if tanggal == "":
-        tanggal = datetime.now().strftime("%Y-%m-%d")
+    lama = data[nomor - 1].split("|", 2)
+    nama_lama, tanggal_lama, mimpi_lama = lama
+    print("\nKosongkan isian untuk mempertahankan nilai lama.")
+    nama = input(f"Nama [{nama_lama}]: ").strip() or nama_lama
+    mimpi_baru = input(f"Mimpi [{mimpi_lama}]: ").strip() or mimpi_lama
+    tanggal = input(f"Tanggal [{tanggal_lama}]: ").strip() or tanggal_lama
 
     data[nomor - 1] = f"{nama}|{tanggal}|{mimpi_baru}"
     # tulis ulang file
     with open(file, "w", encoding="utf-8") as f:
         f.writelines([ln + "\n" for ln in data])
-    print("✅ Mimpi diperbarui.\n")
+    print("✅ Mimpimu berhasil diperbarui.")
 
 def hapus_mimpi():
     data = lihat_mimpi()
     if not data:
         return
-    try:
-        nomor = int(input("Masukkan nomor mimpi yang ingin dihapus: ").strip())
-    except:
-        print("Masukan harus angka.\n"); return
-    if not (1 <= nomor <= len(data)):
-        print("Nomor tidak valid.\n"); return
+    nomor = pilih_nomor("Nomor mimpi yang ingin dihapus (0 untuk batal): ", len(data))
+    if nomor is None:
+        print("Penghapusan dibatalkan.")
+        return
+    yakin = input("Yakin ingin menghapus mimpi ini? (y/n): ").strip().lower()
+    if yakin not in ("y", "ya"):
+        print("Aman, mimpimu tidak jadi dihapus.")
+        return
 
     del data[nomor - 1]
     with open(file, "w", encoding="utf-8") as f:
         f.writelines([ln + "\n" for ln in data])
-    print("🗑️ Mimpi dihapus.\n")
+    print("🗑️ Mimpi berhasil dihapus.")
 
 def tafsir_mimpi():
     data = lihat_mimpi()
     if not data:
         return
-    try:
-        pilih = int(input("Pilih nomor mimpi untuk ditafsirkan: ").strip())
-    except:
-        print("Masukan harus angka.\n"); return
-    if not (1 <= pilih <= len(data)):
-        print("Nomor tidak valid.\n"); return
+    pilih = pilih_nomor("Pilih nomor mimpi untuk ditafsirkan (0 untuk batal): ", len(data))
+    if pilih is None:
+        print("Tafsir dibatalkan.")
+        return
 
     parts = data[pilih - 1].split("|", 2)
     nama = parts[0] if len(parts) > 0 else ""
@@ -283,23 +313,29 @@ def tafsir_mimpi():
             arti, kategori = detail
             break
 
-    print("\n=== TAFSIR MIMPI ===")
-    print(f"Nama     : {nama}")
+    ikon = {"indah": "🌟", "biasa": "☁️", "buruk": "🌧️"}.get(kategori, "💭")
+    print(f"\n{ikon} RUANG TAFSIR")
+    garis()
+    print(f"Mimpi    : {mimpi}")
     print(f"Tanggal  : {tanggal}")
-    print(f"Mimpimu  : {mimpi}")
     print(f"Tafsir   : {arti}")
-    print(f"Kategori : {kategori.upper()}\n")
+    print(f"Nuansa   : {kategori.upper()}")
+    print("\nCatatan: tafsir ini untuk hiburan dan refleksi, ya.")
 
 def menu():
     while True:
-        print("=== ☁️  MEMORY OF DREAMS 🌙✨ ===")
-        print("1. ➕ Tambah Mimpi")
-        print("2. 👀 Lihat Semua Mimpi")
-        print("3. ✏️  Ubah Mimpi")
-        print("4. 🗑️  Hapus Mimpi")
-        print("5. 🔮 Tafsir Mimpi")
-        print("0. ↩️  Keluar")
-        pilih = input("Pilih menu: ").strip()
+        print("\n" + "═" * 56)
+        print("          ☁️  MEMORY OF DREAMS  🌙")
+        print("       Simpan cerita dari dunia tidurmu")
+        print("═" * 56)
+        print("  1  ✍️   Tulis mimpi baru")
+        print("  2  📖  Lihat jurnal mimpi")
+        print("  3  📝  Ubah catatan")
+        print("  4  🗑️  Hapus catatan")
+        print("  5  🔮  Lihat tafsir")
+        print("  0  👋  Keluar")
+        garis()
+        pilih = input("Mau melakukan apa? ").strip()
         if pilih == "1":
             tambah_mimpi()
         elif pilih == "2":
@@ -311,10 +347,12 @@ def menu():
         elif pilih == "5":
             tafsir_mimpi()
         elif pilih == "0":
-            print("Bye 👋")
+            print("\nSemoga tidurmu nyenyak dan mimpimu indah. Sampai jumpa! 👋")
             break
         else:
-            print("Pilihan tidak valid.\n")
+            print("Pilihan belum tersedia. Masukkan angka 0 sampai 5 ya.")
+            continue
+        jeda()
 
 if __name__ == "__main__":
     menu()

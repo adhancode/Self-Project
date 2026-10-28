@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f2ff">
+  <title>Memory of Dreams — Jurnal Mimpi</title>
+  <style>
+    :root{--ink:#292642;--muted:#77748d;--paper:#fff;--bg:#f7f5fc;--purple:#7658cf;--purple-dark:#6042b7;--lav:#eee9ff;--line:#ece9f4;--pink:#ffe9f0;--shadow:0 14px 40px #38286712}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}button,input,textarea{font:inherit}button{cursor:pointer}
+    .app{max-width:1120px;margin:auto;padding:24px 28px 60px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:18px;letter-spacing:-.4px}.brand-icon{width:42px;height:42px;border-radius:15px;background:var(--lav);display:grid;place-items:center;font-size:23px}.top-actions{display:flex;gap:9px}.icon-btn,.secondary{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:12px;padding:10px 14px;font-weight:650}.icon-btn:hover,.secondary:hover{border-color:#c9bdf1;background:#fbfaff}
+    .hero{background:linear-gradient(115deg,#ede8ff,#f7efff 58%,#fff0f3);border:1px solid #ebe4ff;border-radius:26px;padding:34px 38px;margin-bottom:25px;position:relative;overflow:hidden}.hero:after{content:"✦";position:absolute;right:54px;top:12px;font-size:84px;color:#9a7eea22}.eyebrow{color:var(--purple-dark);font-weight:750;font-size:12px;letter-spacing:1.2px;text-transform:uppercase}.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.12;letter-spacing:-1.5px;margin:8px 0 10px;max-width:620px}.hero p{color:#69647f;margin:0;max-width:560px}.hero .primary{margin-top:20px}
+    .layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(280px,.75fr);gap:22px;align-items:start}.panel{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow)}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.section-head h2{font-size:19px;margin:0;letter-spacing:-.4px}.count{background:var(--lav);color:var(--purple-dark);font-weight:750;font-size:12px;padding:5px 10px;border-radius:20px}
+    .primary{border:0;border-radius:13px;background:var(--purple);color:#fff;padding:12px 17px;font-weight:750;box-shadow:0 7px 16px #7658cf30}.primary:hover{background:var(--purple-dark);transform:translateY(-1px)}.secondary{padding:9px 12px}.danger{color:#c24c69}.search{width:100%;border:1px solid var(--line);background:#faf9fd;border-radius:12px;padding:12px 14px;margin-bottom:14px;outline:none}.search:focus,input:focus,textarea:focus{border-color:#9a80e3!important;box-shadow:0 0 0 3px #7658cf17}
+    .dream-list{display:grid;gap:12px}.dream-card{border:1px solid var(--line);border-radius:17px;padding:16px;background:#fff;transition:.18s}.dream-card:hover{border-color:#d8cff1;transform:translateY(-1px)}.dream-meta{display:flex;align-items:center;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px}.dream-card h3{font-size:15px;margin:10px 0 5px;line-height:1.5;font-weight:650;white-space:pre-wrap;overflow-wrap:anywhere}.dream-card .owner{color:var(--muted);font-size:12px}.card-actions{display:flex;gap:8px;margin-top:13px}.card-actions button{border:0;background:var(--lav);color:var(--purple-dark);border-radius:10px;padding:7px 10px;font-size:12px;font-weight:700}.card-actions button:hover{background:#e3dcff}.card-actions .delete{background:#fff0f3;color:#b34b65}.empty{text-align:center;padding:40px 14px;color:var(--muted)}.empty span{display:block;font-size:35px;margin-bottom:8px}
+    .form-panel h2{margin:0 0 4px;font-size:19px}.form-panel>p{margin:0 0 20px;color:var(--muted);font-size:13px}.field{margin-bottom:15px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}.field input,.field textarea{display:block;width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;color:var(--ink);background:#fff;outline:none}.field textarea{resize:vertical;min-height:118px}.hint{font-size:11px;color:var(--muted);margin-top:5px}.full{width:100%}.privacy{display:flex;gap:9px;align-items:flex-start;padding:13px;background:#f7f5fc;border-radius:13px;color:var(--muted);font-size:12px;margin-top:15px}.privacy b{color:var(--ink)}
+    .toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;background:#292642;color:white;padding:11px 17px;border-radius:13px;pointer-events:none;transition:.2s;box-shadow:var(--shadow);z-index:5}.toast.show{opacity:1;transform:translate(-50%,0)}
+    /* Animasi kecil agar halaman terasa hidup, tanpa mengganggu membaca. */
+    @keyframes floaty{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-9px) rotate(4deg)}}
+    @keyframes twinkle{0%,100%{opacity:.22;transform:scale(.75) rotate(0)}50%{opacity:.8;transform:scale(1.12) rotate(35deg)}}
+    @keyframes rise-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes gentle-pulse{0%,100%{box-shadow:0 7px 16px #7658cf30}50%{box-shadow:0 9px 24px #7658cf55}}
+    .brand-icon{animation:floaty 4s ease-in-out infinite}
+    .hero:after{animation:twinkle 3.6s ease-in-out infinite}
+    .hero h1,.hero p,.hero .primary{animation:rise-in .6s both}
+    .hero p{animation-delay:.1s}.hero .primary{animation-delay:.18s;animation:rise-in .6s .18s both,gentle-pulse 3s 1s ease-in-out infinite}
+    .dream-card{animation:rise-in .35s both}
+    .dream-card:nth-child(2){animation-delay:.045s}.dream-card:nth-child(3){animation-delay:.09s}.dream-card:nth-child(4){animation-delay:.135s}.dream-card:nth-child(5){animation-delay:.18s}
+    .primary,.secondary,.icon-btn,.dream-card{transition:transform .18s ease,box-shadow .18s ease,border-color .18s ease,background .18s ease}
+    .primary:active,.secondary:active,.icon-btn:active,.card-actions button:active{transform:scale(.97)}
+    dialog[open] .modal{animation:rise-in .22s ease-out}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+    dialog{border:0;border-radius:22px;padding:0;width:min(520px,calc(100% - 28px));box-shadow:0 24px 90px #20154640;color:var(--ink)}dialog::backdrop{background:#211a3d77;backdrop-filter:blur(3px)}.modal{padding:24px}.modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.modal-head h2{font-size:20px;margin:0}.close{border:0;background:#f3f0fa;width:35px;height:35px;border-radius:11px;font-size:19px}.meaning{background:#f8f5ff;border-radius:15px;padding:16px;margin:14px 0}.meaning p{margin:6px 0}.badge{display:inline-flex;border-radius:20px;padding:4px 10px;background:var(--lav);color:var(--purple-dark);font-size:11px;font-weight:800}.modal-note{font-size:12px;color:var(--muted)}.modal .field{margin-top:18px}
+    @media(max-width:760px){.app{padding:16px 15px 40px}.topbar{margin-bottom:18px}.brand{font-size:16px}.top-actions .label{display:none}.hero{padding:25px 22px;border-radius:21px;margin-bottom:17px}.hero:after{right:17px;top:0;font-size:62px}.layout{grid-template-columns:1fr;gap:16px}.panel{padding:19px;border-radius:19px}.form-panel{grid-row:1}.list-panel{grid-row:2}.section-head h2{font-size:17px}.hero h1{max-width:85%}}
+    @media(max-width:390px){.app{padding-inline:11px}.hero{padding:22px 17px}.panel{padding:16px}.top-actions{gap:6px}.icon-btn{padding:9px 10px}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <div class="brand"><div class="brand-icon">🌙</div><span>Memory of Dreams</span></div>
+      <div class="top-actions">
+        <button class="icon-btn" id="exportBtn" title="Unduh salinan jurnal">⬇️ <span class="label">Ekspor</span></button>
+        <button class="icon-btn" id="importBtn" title="Pulihkan jurnal dari file">⬆️ <span class="label">Impor</span></button>
+        <input id="importFile" type="file" accept="application/json,.json" hidden>
+      </div>
+    </header>
+    <section class="hero">
+      <div class="eyebrow">Ruang kecil untuk cerita besarmu</div>
+      <h1>Simpan mimpimu,<br>kenali dirimu. ✨</h1>
+      <p>Catat hal-hal yang kamu alami saat tidur dan lihat kembali kapan saja. Semua jurnal tersimpan di perangkatmu.</p>
+      <button class="primary" id="startBtn">＋ Tulis mimpi</button>
+    </section>
+    <div class="layout">
+      <section class="panel list-panel">
+        <div class="section-head"><h2>Jurnal mimpimu</h2><span class="count" id="count">0 mimpi</span></div>
+        <input class="search" id="search" type="search" placeholder="Cari cerita atau nama..." aria-label="Cari jurnal mimpi">
+        <div class="dream-list" id="dreamList"></div>
+      </section>
+      <section class="panel form-panel" id="formPanel">
+        <h2 id="formTitle">Mimpi apa yang kamu ingat?</h2>
+        <p>Tulis sebebasnya. Catatan ini hanya untukmu.</p>
+        <form id="dreamForm">
+          <input type="hidden" id="dreamId">
+          <div class="field"><label for="name">Namamu</label><input id="name" maxlength="60" placeholder="Contoh: Rani" required></div>
+          <div class="field"><label for="date">Tanggal mimpi</label><input id="date" type="date" required><div class="hint">Tanggal hari ini terisi otomatis, bisa kamu ubah.</div></div>
+          <div class="field"><label for="story">Ceritakan mimpimu</label><textarea id="story" maxlength="2000" placeholder="Apa yang terjadi dalam mimpimu?" required></textarea><div class="hint">Maksimal 2.000 karakter.</div></div>
+          <button class="primary full" id="saveBtn" type="submit">Simpan ke jurnal ✨</button>
+          <button class="secondary full" id="cancelEdit" type="button" hidden style="margin-top:8px">Batal mengubah</button>
+        </form>
+        <div class="privacy"><span>🔒</span><span><b>Privat di perangkatmu.</b> Jurnal disimpan di browser ini dan tidak dikirim ke server.</span></div>
+      </section>
+    </div>
+  </main>
+  <dialog id="meaningDialog"><div class="modal"><div class="modal-head"><h2>🔮 Ruang tafsir</h2><button class="close" data-close aria-label="Tutup">×</button></div><p id="meaningStory"></p><div class="meaning"><span class="badge" id="meaningCategory"></span><p id="meaningText"></p></div><p class="modal-note">Tafsir ini untuk hiburan dan refleksi saja. Tidak ada satu arti universal; makna mimpi dipengaruhi pengalaman pribadi dan budaya.</p></div></dialog>
+  <dialog id="editDialog"><div class="modal"><div class="modal-head"><h2>📝 Ubah catatan</h2><button class="close" data-close aria-label="Tutup">×</button></div><p id="editStory"></p><div class="field"><label for="editName">Nama</label><input id="editName" maxlength="60"></div><div class="field"><label for="editDate">Tanggal</label><input id="editDate" type="date"></div><div class="field"><label for="editText">Cerita mimpi</label><textarea id="editText" maxlength="2000"></textarea></div><button class="primary full" id="updateBtn">Simpan perubahan</button></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+  const STORAGE_KEY = 'memory-of-dreams-v1';
+  const meanings = {
+    bayi:['Awal yang baru dan menyenangkan.','indah'], menikah:['Kebahagiaan dan keharmonisan.','indah'], uang:['Rezeki atau peluang tak terduga.','indah'], terbang:['Ambisi dan keinginan meraih impian.','indah'], bunga:['Perhatian, kasih sayang, atau hal yang tumbuh.','indah'], laut:['Ketenangan batin dan kedamaian.','indah'], pelangi:['Harapan setelah melewati masa sulit.','indah'], makan:['Kepuasan dan kebersamaan.','indah'], matahari:['Harapan baru dan semangat yang cerah.','indah'], pelukan:['Kehangatan dari orang terdekat.','indah'], pohon:['Pertumbuhan dan kestabilan.','indah'], burung:['Kebebasan dan harapan.','indah'], emas:['Keberuntungan atau sesuatu yang kamu hargai.','indah'], air:['Ketenangan dan keseimbangan batin.','indah'], senyum:['Kebahagiaan sederhana.','indah'], berdoa:['Ketenangan batin dan harapan baru.','indah'], menangis:['Pelepasan beban dan kelegaan.','indah'], tertawa:['Keceriaan dan energi positif.','indah'], pesawat:['Perjalanan atau perubahan besar.','indah'], berenang:['Upaya mengelola emosi dan situasi.','indah'], tenggelam:['Mungkin sedang merasa kewalahan.','buruk'], hantu:['Ketakutan atau kekhawatiran yang belum selesai.','buruk'], ular:['Rasa waspada atau tidak percaya.','buruk'], jatuh:['Kecemasan tentang kegagalan atau kendali.','buruk'], gelap:['Kebingungan atau rasa tidak aman.','buruk'], darah:['Kelelahan atau kehilangan semangat.','buruk'], kematian:['Akhir dari suatu fase; tidak selalu berarti buruk.','buruk'], dikejar:['Tekanan atau urusan yang terasa belum selesai.','buruk'], banjir:['Emosi yang terasa meluap.','buruk'], kecelakaan:['Pengingat untuk berhati-hati.','buruk'], kebakaran:['Emosi kuat atau perubahan yang terasa mendesak.','buruk'], disakiti:['Luka batin yang mungkin perlu diperhatikan.','buruk'], 'gigi copot':['Kecemasan tentang perubahan atau kehilangan.','buruk'], kendaraan:['Arah hidup atau perjalanan yang sedang berubah.','biasa'], sekolah:['Tanggung jawab atau proses belajar.','biasa'], teman:['Kebutuhan akan dukungan dan koneksi.','biasa'], rumah:['Kenyamanan dan kehidupan pribadi.','biasa'], jalan:['Pencarian arah atau tujuan.','biasa'], hujan:['Pembaruan emosi dan perasaan.','biasa'], gunung:['Tantangan yang sedang kamu hadapi.','biasa'], kucing:['Intuisi dan kelembutan.','biasa'], anjing:['Kesetiaan dan perlindungan.','biasa'], cermin:['Refleksi diri dan pencarian jati diri.','biasa'], api:['Semangat atau emosi yang kuat.','biasa'], tidur:['Tubuh atau pikiran mungkin butuh istirahat.','biasa'], berlari:['Keinginan menghindari sesuatu atau mencapai tujuan.','biasa'], kapal:['Perjalanan hidup atau perubahan.','biasa'], kereta:['Proses menuju perubahan.','biasa'], motor:['Ambisi dan arah tujuan.','biasa'], 'mendengar musik':['Suasana hati dan kebutuhan akan ketenangan.','biasa']
+  };
+  // Kata kunci tambahan dan variasinya. Tafsir ini bahan refleksi, bukan ramalan.
+  const extraMeaningGroups = [
+    ['bunuh|membunuh|dibunuh|pembunuhan|membantai','Bisa menggambarkan konflik, kemarahan, atau keinginan mengakhiri suatu situasi. Ingat kembali emosi dalam mimpi.','biasa'],
+    ['mati|meninggal|wafat|mayat|jenazah|pemakaman|kuburan|makam|dikubur','Dapat berkaitan dengan kehilangan, perubahan, kenangan, atau penutupan suatu fase. Tidak berarti seseorang akan meninggal.','biasa'],
+    ['luka|terluka|terpotong|teriris|ditusuk|ditikam|berdarah','Mungkin mencerminkan rasa rentan, lelah, atau ada hal yang terasa menyakitkan.','buruk'],
+    ['mengejar|dikejar|kabur dari|melarikan diri|bersembunyi|diburu','Sering terasa seperti tekanan atau urusan yang ingin dihindari. Apa yang sedang membebani pikiranmu?','buruk'],
+    ['jatuh dari|terjatuh|tergelincir|tersandung|jatuh bebas|jatuh ke jurang','Bisa berhubungan dengan rasa kehilangan kendali, ketidakpastian, atau takut gagal.','buruk'],
+    ['melayang|terbang tinggi|sayap|melompat tinggi','Dapat terasa seperti kebebasan, harapan, atau ingin mengambil jarak dari rutinitas.','indah'],
+    ['gigi tanggal|gigi patah|gigi rontok|gigi ompong','Mungkin berkaitan dengan rasa percaya diri, perubahan, atau kekhawatiran tentang penampilan dan komunikasi.','biasa'],
+    ['rambut|rambut rontok|rambut dipotong|botak|beruban|menyisir rambut','Bisa mengingatkan pada identitas diri, perubahan, atau cara ingin dilihat orang lain.','biasa'],
+    ['telanjang|tanpa baju|tidak berpakaian|pakaian hilang|salah kostum','Mungkin mencerminkan rasa terekspos, malu, atau takut dinilai.','biasa'],
+    ['tersesat|kehilangan arah|salah jalan|jalan buntu|tidak tahu jalan|nyasar','Dapat berkaitan dengan pilihan atau arah hidup yang sedang terasa belum jelas.','biasa'],
+    ['ujian|ujian sekolah|ujian kuliah|terlambat ujian|tidak siap ujian|lupa belajar','Sering berkaitan dengan tekanan, penilaian, atau merasa belum siap menghadapi tanggung jawab.','biasa'],
+    ['terlambat|ketinggalan|melewatkan kereta|melewatkan pesawat|janji terlambat','Bisa mencerminkan kekhawatiran kehilangan kesempatan atau sulit mengejar jadwal.','biasa'],
+    ['rumah lama|rumah masa kecil|rumah baru|pindah rumah|rumah rusak|rumah terbakar|rumah kosong','Rumah dapat mengingatkan pada rasa aman, keluarga, kenangan, atau keadaan diri.','biasa'],
+    ['kamar|kamar tidur|ruang rahasia|loteng|ruang bawah tanah|pintu tersembunyi','Mungkin menggambarkan bagian kehidupan pribadi atau hal yang ingin kamu pahami.','biasa'],
+    ['pintu|pintu terkunci|pintu terbuka|jendela|jendela pecah|kunci|gembok','Dapat berkaitan dengan batas pribadi, peluang, atau rasa ingin tahu.','biasa'],
+    ['naik tangga|turun tangga|lift|elevator|eskalator','Bisa terasa seperti kemajuan, perubahan tahap, atau naik-turunnya semangat.','biasa'],
+    ['menyeberang|menyebrangi sungai|terowongan|lorong|jalan setapak','Mungkin berkaitan dengan masa peralihan atau langkah menuju situasi baru.','biasa'],
+    ['mobil|menyetir|mengemudi|supir|rem blong|mobil rusak|mobil hilang|tabrakan mobil','Kendaraan dapat mengingatkan pada kendali, tujuan, dan kecepatan perjalanan hidupmu.','biasa'],
+    ['sepeda motor|naik motor|helm|sepeda|bersepeda|ban bocor','Bisa mencerminkan kemandirian, keseimbangan, atau cara mencapai tujuan.','biasa'],
+    ['bus|naik bus|halte|terminal|angkot|taksi|ojek|perahu|perahu bocor','Mungkin berkaitan dengan perjalanan bersama orang lain atau arah yang sedang ditempuh.','biasa'],
+    ['stasiun|kereta api|rel kereta|kereta terlambat|kereta melaju','Dapat menggambarkan rutinitas, ritme hidup, atau perjalanan menuju tujuan.','biasa'],
+    ['bandara|pesawat jatuh|naik pesawat|pesawat lepas landas|tiket pesawat|koper hilang','Bisa berhubungan dengan rencana, perubahan, atau harapan untuk memulai sesuatu.','biasa'],
+    ['samudra|ombak|gelombang|pantai|pasir pantai|kapal tenggelam','Air luas dapat mengingatkan pada emosi, ketenangan, atau perasaan yang sulit diukur.','biasa'],
+    ['sungai|arus sungai|danau|kolam|air terjun|mata air','Mungkin mencerminkan aliran emosi, perubahan, atau kebutuhan untuk berhenti sejenak.','biasa'],
+    ['air keruh|air jernih|air kotor|air meluap|kehausan|minum air|air minum','Keadaan air dalam mimpi dapat menjadi bahan refleksi tentang suasana hati dan kebutuhan diri.','biasa'],
+    ['hujan deras|hujan badai|kehujanan|berteduh|payung|banjir bandang|tsunami','Bisa berkaitan dengan perasaan intens, perubahan, atau kebutuhan mencari perlindungan.','biasa'],
+    ['salju|es|membeku|gunung es|hujan es|kedinginan','Mungkin mencerminkan jarak emosional, suasana dingin, atau kebutuhan akan jeda.','biasa'],
+    ['angin kencang|badai|topan|puting beliung|tornado|bencana alam','Dapat menggambarkan perubahan besar atau keadaan yang terasa di luar kendali.','biasa'],
+    ['gempa|gempa bumi|tanah longsor|gunung meletus|letusan gunung|abu vulkanik','Mungkin berkaitan dengan perubahan mendadak atau rasa aman yang sedang terguncang.','biasa'],
+    ['rumah terbakar|hutan terbakar|asap|asap tebal|lilin menyala','Api dapat terasa sebagai semangat, amarah, bahaya, atau energi kuat; perasaanmu membantu memberi konteks.','biasa'],
+    ['petir|kilat|guntur|langit gelap|awan hitam|pelangi muncul','Cuaca dalam mimpi bisa mencerminkan suasana hati atau harapan akan perubahan.','biasa'],
+    ['matahari terbit|matahari terbenam|gerhana|bulan purnama|bulan sabit|bintang jatuh|langit malam','Langit dan benda langit dapat menjadi simbol harapan, kekaguman, atau siklus perubahan pribadi.','biasa'],
+    ['kebun|taman|hutan|pohon tumbang|pohon berbuah|daun gugur|daun hijau','Alam dapat mengingatkan pada pertumbuhan, kebutuhan beristirahat, atau hubungan dengan lingkungan.','biasa'],
+    ['bunga mawar|bunga layu|bunga mekar|memetik bunga|bunga putih|bunga merah','Bunga bisa menghubungkan mimpi dengan kasih sayang, keindahan, atau sesuatu yang sedang berkembang.','biasa'],
+    ['rumput|ladang|sawah|panen|menanam|menyiram tanaman|benih','Dapat menjadi bahan refleksi tentang kesabaran, usaha, dan hal yang sedang kamu rawat.','biasa'],
+    ['ular besar|ular kecil|ular menggigit|digigit ular|ular masuk rumah|ular hijau|ular hitam|ular putih','Ular bisa memiliki arti berbeda antarorang dan budaya; perhatikan apakah kamu merasa takut, tenang, atau penasaran.','biasa'],
+    ['buaya|buaya mengejar|harimau|singa|macan|serigala|rubah|beruang','Hewan buas dapat mencerminkan rasa terancam, kekuatan, atau sifat yang sedang kamu hadapi.','biasa'],
+    ['gajah|kuda|naik kuda|sapi|kerbau|kambing|domba|babi|monyet|gorila','Hewan dapat mengingatkan pada sifat, pengalaman, atau hubungan tertentu yang kamu kaitkan dengannya.','biasa'],
+    ['tikus|kecoak|kutu|lalat|nyamuk|semut|disengat lebah|sarang lebah','Serangga dapat mencerminkan gangguan kecil, kerja sama, atau sesuatu yang terus menarik perhatian.','biasa'],
+    ['kupu-kupu|ulat|laba-laba|jaring laba-laba|kalajengking|cacing|belalang|jangkrik','Makhluk kecil bisa menjadi simbol perubahan, rasa tidak nyaman, atau detail yang terasa penting bagimu.','biasa'],
+    ['ikan besar|ikan mati|memancing|memancing ikan|akuarium|ikan berenang|ikan mas','Ikan dan air dapat dikaitkan dengan emosi, ide yang muncul, atau sesuatu yang terasa penting.','biasa'],
+    ['burung hantu|elang|merpati|gagak|ayam berkokok|telur ayam|sarang burung|burung terbang','Burung bisa terasa sebagai kebebasan, pengamatan, kabar, atau hubungan dengan alam.','biasa'],
+    ['kucing hitam|anak kucing|kucing hilang|kucing menggigit|anjing menggonggong|anjing menggigit|anjing hilang|anak anjing','Kucing dan anjing sering terhubung dengan intuisi, kedekatan, kesetiaan, atau pengalamanmu dengan hewan.','biasa'],
+    ['hewan peliharaan|hewan mati|hewan berbicara|kebun binatang|sirkus|hewan lepas','Hewan dalam mimpi bisa mewakili hubungan, naluri, atau tanggung jawab yang terasa dekat.','biasa'],
+    ['bayi lahir|melahirkan|hamil|kehamilan|menggendong bayi|bayi menangis|bayi hilang','Dapat mengingatkan pada awal baru, tanggung jawab, harapan, atau sesuatu yang sedang tumbuh.','biasa'],
+    ['anak hilang|anak menangis|bermain dengan anak|anak sendiri|anak sekolah','Mungkin berkaitan dengan tanggung jawab, kenangan masa kecil, atau sisi diri yang perlu diperhatikan.','biasa'],
+    ['ibu|ayah|orang tua|nenek|kakek|saudara|kakak|adik|keluarga berkumpul|keluarga bertengkar','Mimpi keluarga bisa mengangkat kenangan, kebutuhan akan kedekatan, atau dinamika hubungan.','biasa'],
+    ['mantan|pacar|pasangan|suami|istri|kekasih|putus cinta|menikah lagi|pernikahan','Bisa mencerminkan perasaan, kenangan, harapan, atau kebutuhan dalam hubungan; bukan ramalan masa depan.','biasa'],
+    ['teman lama|sahabat|teman meninggal|teman bertengkar|bertemu teman|teman mengkhianati','Mungkin terkait rasa terhubung, konflik, dukungan, atau kenangan bersama seseorang.','biasa'],
+    ['orang asing|orang tak dikenal|kerumunan|orang banyak|berbicara di depan umum|dilihat orang','Dapat mencerminkan rasa percaya diri, kebutuhan diterima, atau kekhawatiran tentang penilaian.','biasa'],
+    ['artis|penyanyi|aktor|presiden|raja|ratu|tokoh terkenal|bertemu idola','Tokoh terkenal dapat mewakili kualitas yang kamu kagumi atau ingin kamu kembangkan.','biasa'],
+    ['setan|iblis|jin|monster|zombie|vampir|makhluk aneh|dikejar monster','Sosok menakutkan bisa menjadi gambaran rasa takut atau tekanan; bukan bukti adanya sesuatu yang gaib.','biasa'],
+    ['malaikat|peri|naga|raksasa|makhluk mitologi|burung phoenix|unicorn','Makhluk fantasi bisa menghubungkan imajinasi, kekuatan, harapan, atau cerita yang kamu kenal.','biasa'],
+    ['dokter|rumah sakit|operasi|suntik|obat|sakit|demam|sembuh|ambulans','Mungkin berkaitan dengan perhatian pada kesehatan, kebutuhan merawat diri, atau rasa cemas.','biasa'],
+    ['dokter gigi|gigi sakit|sakit kepala|pingsan|lumpuh|tidak bisa bergerak|sulit bernapas','Sensasi tubuh saat tidur dapat memengaruhi mimpi; perhatikan juga kondisi tubuh setelah bangun.','biasa'],
+    ['polisi|ditangkap|penjara|dipenjara|pengadilan|hakim|dihukum|melanggar hukum','Bisa mencerminkan aturan, batas, rasa bersalah, atau takut kehilangan kebebasan.','biasa'],
+    ['pencuri|kemalingan|dirampok|perampokan|tas hilang|dompet hilang|uang dicuri|barang hilang','Mungkin terkait rasa aman, privasi, kehilangan, atau khawatir sesuatu yang penting terlepas.','biasa'],
+    ['perang|berkelahi|bertengkar|memukul|dipukul|menampar|menendang|menyerang|diserang','Dapat mencerminkan konflik atau frustrasi; konteks hubungan dan perasaan dalam mimpi penting.','biasa'],
+    ['pisau|pedang|senjata|pistol|senapan|bom|ledakan|panah|perisai','Benda berbahaya bisa terasa sebagai perlindungan, ancaman, atau konflik yang perlu dihadapi.','biasa'],
+    ['menyelamatkan orang|menolong orang|menolong teman|menyelamatkan anak|menjadi pahlawan','Bisa mencerminkan kepedulian, rasa tanggung jawab, atau keinginan membantu seseorang.','indah'],
+    ['air mata|sedih|kesepian|ditinggalkan|merasa sendirian|rindu','Mimpi dapat memberi ruang bagi emosi yang belum sempat kamu perhatikan saat terjaga.','biasa'],
+    ['bahagia|gembira|pesta|perayaan|ulang tahun|hadiah|kejutan','Dapat menggambarkan kebutuhan akan kegembiraan, kedekatan, atau apresiasi.','indah'],
+    ['marah|berteriak|menjerit|takut|panik|cemas|malu|gugup|bingung','Emosi yang muncul bisa menjadi petunjuk refleksi tentang hal yang sedang memenuhi pikiran.','biasa'],
+    ['masjid|gereja|pura|vihara|kuil|azan|salat|sembahyang|kitab suci','Makna spiritual sangat personal dan dipengaruhi keyakinan; mimpi ini bisa mengingatkan pada nilai dan sumber ketenanganmu.','biasa'],
+    ['haji|umrah|ziarah|berpuasa|beribadah|bertemu guru spiritual|pemuka agama','Bisa berkaitan dengan pencarian makna, nilai hidup, atau kebutuhan akan ketenangan.','biasa'],
+    ['uang kertas|uang koin|menemukan uang|kehilangan uang|membayar|utang|menang lotre','Dapat mencerminkan rasa aman, penghargaan diri, pilihan, atau kekhawatiran tentang sumber daya.','biasa'],
+    ['berlian|permata|cincin|kalung|perhiasan|harta karun|menemukan harta','Mungkin mewakili sesuatu yang kamu anggap bernilai, pencapaian, atau rasa percaya diri.','biasa'],
+    ['makan nasi|makan bersama|makan sendirian|kelaparan|memasak|dapur|restoran|kue|roti','Makanan dapat terhubung dengan kenyamanan, kebutuhan, kebersamaan, atau kebiasaan sehari-hari.','biasa'],
+    ['apel|pisang|mangga|durian|jeruk|anggur|semangka|sayur|cabai|garam|gula','Makanan tertentu mungkin punya kenangan atau asosiasi pribadi; pikirkan pengalamanmu dengannya.','biasa'],
+    ['minum kopi|minum teh|kopi|teh|susu|minuman|keracunan makanan|makanan basi','Bisa mengingatkan pada rutinitas, kebutuhan energi, atau sesuatu yang terasa tidak nyaman.','biasa'],
+    ['kelas|guru|dosen|murid|belajar|buku|membaca buku|perpustakaan|lulus|wisuda','Dapat berkaitan dengan proses belajar, evaluasi diri, rasa ingin tahu, atau tanggung jawab.','biasa'],
+    ['kantor|pekerjaan|bos|rekan kerja|rapat|dipecat|promosi kerja|wawancara kerja|gaji','Mungkin mencerminkan tekanan, ambisi, hubungan kerja, atau kebutuhan akan keseimbangan.','biasa'],
+    ['menulis|menggambar|melukis|bernyanyi|menari|bermain musik|panggung|konser|bermain gitar','Bisa mewakili kreativitas, ekspresi diri, atau keinginan untuk didengar dan dilihat.','biasa'],
+    ['ponsel|telepon|telepon rusak|pesan|pesan tidak terkirim|internet|komputer|laptop|kamera|foto','Teknologi dalam mimpi bisa berkaitan dengan komunikasi, privasi, atau kebiasaan sehari-hari.','biasa'],
+    ['jam tangan|waktu|waktu berhenti|jam rusak|jam terlambat|kalender|tanggal','Mungkin mengingatkan pada tenggat, perubahan, atau perhatianmu terhadap waktu.','biasa'],
+    ['kartu kredit|kartu identitas|paspor|dokumen|surat|tanda tangan','Dokumen dan benda pribadi bisa berkaitan dengan identitas, tanggung jawab, atau urusan yang belum selesai.','biasa'],
+    ['bayangan diri|wajah berubah|tidak punya wajah|wajah asing|bercermin|foto diri','Dapat mengajak refleksi tentang identitas, kepercayaan diri, dan cara memandang diri sendiri.','biasa'],
+    ['berubah bentuk|berubah menjadi hewan|menjadi orang lain|tidak dikenal diri sendiri|menyamar','Mungkin berhubungan dengan perubahan peran atau sisi diri yang sedang kamu eksplorasi.','biasa'],
+    ['warna merah|warna biru|warna putih|warna hitam|warna hijau|warna kuning|warna ungu|warna emas','Warna tidak punya arti universal; asosiasi pribadi dan suasana mimpi lebih membantu untuk refleksi.','biasa'],
+    ['ombak besar|air pasang|air surut|berenang di laut|menyelam|snorkeling','Bisa menjadi bahan refleksi tentang kedalaman emosi dan rasa nyaman menghadapi perubahan.','biasa'],
+    ['berjalan tanpa alas kaki|sepatu hilang|sepatu baru|sandal|kaus kaki|pakaian baru|baju putih|seragam','Pakaian dan alas kaki dapat berkaitan dengan kesiapan, identitas, atau kenyamanan dalam suatu peran.','biasa'],
+    ['mencari sesuatu|menemukan barang|kehilangan barang|membuka hadiah|mengemas barang|pindah kota','Dapat mencerminkan perubahan, prioritas, atau sesuatu yang ingin kamu temukan dalam hidup.','biasa'],
+    ['bertemu almarhum|berbicara dengan orang meninggal|orang meninggal hidup lagi','Bisa mengangkat rasa rindu, kenangan, atau hal yang belum sempat disampaikan.','biasa'],
+    ['melihat angka|angka berulang|nomor rumah|nomor telepon|angka togel|angka 7|angka 13','Angka dapat berasal dari ingatan dan asosiasi pribadi; jangan anggap sebagai prediksi keberuntungan.','biasa'],
+    ['kiamat|akhir dunia|dunia hancur|serangan alien|alien|piring terbang|meteor jatuh|komet','Mungkin mencerminkan kekhawatiran besar atau perubahan yang terasa sulit dibayangkan.','biasa'],
+    ['terjebak|terkurung|terkunci di ruangan|tidak bisa keluar|terperangkap|ruangan sempit','Bisa berkaitan dengan merasa terbatas atau membutuhkan lebih banyak ruang dan pilihan.','buruk'],
+    ['dilamar|lamaran|mencium|berciuman|berpelukan|berpisah|bercerai','Dapat mencerminkan kebutuhan akan kedekatan, rasa aman, atau pikiran tentang hubungan.','biasa'],
+    ['mendaki gunung|menyeberang|bersepeda jauh|berjalan jauh|berlari jauh','Perjalanan fisik bisa menjadi refleksi tentang usaha, tujuan, dan energi yang kamu miliki.','biasa'],
+    ['menyelam ke laut|menyelam dalam air|hampir tenggelam|menyelamatkan orang tenggelam','Mungkin menggambarkan cara menghadapi emosi intens atau meminta bantuan ketika kewalahan.','biasa'],
+    ['mencuci baju|mandi di sungai|keramas|membersihkan rumah|menyapu|mengepel','Kegiatan membersihkan dapat mengingatkan pada kebutuhan menyegarkan diri atau merapikan sesuatu.','biasa'],
+    ['berkemah|mendaki hutan|tersesat di hutan|berada di pantai|berada di gunung|berada di gua','Tempat alam dapat menjadi cermin kebutuhan akan petualangan, perlindungan, atau waktu sendiri.','biasa'],
+    ['gua|goa|terowongan gelap|sumur|lubang|jurang|tebing|puncak gunung','Tempat tersembunyi atau tinggi bisa berkaitan dengan rasa ingin tahu, tantangan, atau ketidakpastian.','biasa'],
+    ['pengantin|gaun pengantin|menikah dengan mantan|menikah dengan orang asing','Pernikahan dalam mimpi dapat melambangkan komitmen atau perubahan peran, bukan ramalan jodoh.','biasa'],
+    ['diputuskan|ditinggal pasangan|pasangan selingkuh|perselingkuhan|cemburu','Mungkin mencerminkan kekhawatiran, kebutuhan berkomunikasi, atau pengalaman hubungan.','biasa'],
+    ['mencari orang|mencari jalan pulang|tidak menemukan rumah|kehilangan keluarga','Dapat berkaitan dengan kebutuhan akan arah, rasa aman, atau hubungan dengan orang terdekat.','biasa'],
+    ['bertepuk tangan|mendapat penghargaan|menang lomba|kalah lomba|pertandingan|bermain sepak bola|bermain basket','Mungkin mencerminkan kompetisi, kerja sama, keinginan diakui, atau rasa percaya diri.','biasa'],
+    ['menang|juara|kalah|gagal|berhasil|mencapai tujuan|mendapat nilai bagus|nilai buruk','Mimpi ini bisa mengangkat harapan dan kekhawatiran tentang pencapaian atau penilaian.','biasa'],
+    ['mencuri|mencopet|menculik|diculik|disandera|menyandera|ditipu|berbohong','Dapat berhubungan dengan rasa percaya, batas pribadi, atau takut kehilangan kendali.','biasa'],
+    ['ditilang|pemadam kebakaran|evakuasi','Mungkin mencerminkan kebutuhan akan keselamatan atau perhatian pada aturan dan risiko.','biasa'],
+    ['menjadi terkenal|masuk televisi|menjadi viral|berpidato|berbicara di panggung|lupa dialog','Bisa terkait keinginan mengekspresikan diri atau kecemasan menjadi pusat perhatian.','biasa'],
+    ['membaca surat|menerima surat|mengirim surat|surat hilang|membaca pesan rahasia|rahasia terbongkar','Mungkin berkaitan dengan komunikasi, informasi yang ditunggu, atau hal yang belum terungkap.','biasa'],
+    ['bertemu guru|bertemu teman lama|bertemu orang asing|bertemu keluarga|bertemu mantan','Pertemuan dapat membangkitkan kenangan atau kualitas yang kamu hubungkan dengan orang itu.','biasa'],
+    ['mainan|boneka|boneka hidup|bermain ayunan|taman bermain','Bisa mengingatkan pada kenangan masa kecil, kreativitas, atau kebutuhan akan keceriaan.','biasa'],
+    ['bermain game|video game|menonton film|bioskop|menonton berita','Mimpi dapat mengolah cerita, tontonan, atau pengalaman yang baru saja kamu temui.','biasa'],
+    ['berkemas|koper|ransel|tas tertinggal|barang bawaan|perjalanan jauh','Mungkin berkaitan dengan kesiapan, perubahan, atau hal yang kamu bawa dari masa lalu.','biasa'],
+    ['rumah banjir|atap bocor|rumah roboh|renovasi rumah','Rumah dapat menghubungkan mimpi dengan rasa aman, keluarga, atau perubahan dalam kehidupan pribadi.','biasa'],
+    ['membuka pintu|kunci hilang|jendela terbuka|jendela tertutup|masuk rumah','Bisa menjadi bahan refleksi tentang kesempatan, privasi, dan batas yang kamu rasakan.','biasa'],
+    ['berjalan di atas air|air mendidih|air membeku|air berubah warna|minum air laut','Keadaan air yang tidak biasa bisa mencerminkan emosi atau situasi yang terasa berbeda dari biasanya.','biasa'],
+    ['memasak nasi|memasak makanan|makanan gosong|makanan enak|makanan tidak enak|makan buah','Makanan dalam mimpi dapat terkait kenyamanan, kebutuhan tubuh, atau kenangan bersama seseorang.','biasa'],
+    ['musik keras|lagu sedih|lagu bahagia|menari sendiri|menari bersama','Suara dan musik bisa membawa suasana hati atau kenangan yang ingin kamu perhatikan.','biasa'],
+    ['suara tanpa orang|mendengar bisikan|tidak bisa bicara|kehilangan suara|berteriak tanpa suara','Mungkin mencerminkan kesulitan mengungkapkan sesuatu atau kebutuhan untuk didengarkan.','biasa'],
+    ['berjalan di sekolah|kembali ke sekolah|sekolah lama|lupa pelajaran|lupa jawaban|tidak lulus','Dapat berkaitan dengan evaluasi diri, tekanan belajar, atau pengalaman yang masih membekas.','biasa'],
+    ['alarm berbunyi|alarm tidak berbunyi|bangun kesiangan','Bisa mengangkat kekhawatiran tentang waktu, tanggung jawab, atau perubahan rutinitas.','biasa'],
+    ['menjadi kaya|miskin|kehilangan pekerjaan|mendapat pekerjaan|menerima gaji|membayar tagihan','Mungkin mencerminkan rasa aman, tekanan finansial, atau harapan terkait pekerjaan dan masa depan.','biasa'],
+    ['langit cerah|langit merah','Pemandangan langit dapat membawa rasa kagum, harapan, atau suasana yang kamu alami belakangan.','biasa'],
+    ['terbangun di dalam mimpi|mimpi di dalam mimpi|mimpi buruk berulang|mimpi yang sama|mimpi sadar|lucid dream','Mimpi berulang atau sadar bisa menarik untuk dicatat bersama suasana hati dan kejadian sehari-hari.','biasa'],
+    ['tidak bisa bergerak saat tidur|ketindihan|sleep paralysis|terbangun ketakutan','Pengalaman ini dapat terjadi saat transisi tidur-bangun. Jika sering mengganggu, catat polanya dan pertimbangkan berkonsultasi dengan tenaga kesehatan.','biasa'],
+    ['bertemu orang yang sudah meninggal|almarhum tersenyum|almarhum berbicara|mimpi tentang orang tercinta','Bisa menjadi cara pikiran mengingat dan merindukan seseorang; maknanya sangat personal.','biasa'],
+    ['angka tiga|angka sembilan|angka 11|angka 111|angka 222','Angka mungkin terkait tanggal atau pengalaman pribadi; tidak ada arti universal yang dapat dipastikan.','biasa'],
+    ['bayi kembar|anak kembar|dua matahari|dua bulan|dua orang yang sama','Kemunculan ganda dapat mengingatkan pada pilihan, keseimbangan, atau dua hal yang sedang kamu pikirkan.','biasa'],
+    ['makanan basi|makanan beracun|makanan tumpah|minuman tumpah|piring pecah','Benda rusak atau makanan tidak layak dapat mencerminkan kekecewaan atau rasa tidak nyaman.','biasa'],
+    ['membersihkan darah|membuang sampah|sampah menumpuk|rumah berantakan|rumah bersih','Keadaan ruang dapat menjadi refleksi tentang beban, keteraturan, dan kebutuhan menyegarkan suasana.','biasa'],
+    ['mendaki tangga|turun dari gunung|jatuh dari tangga|lift macet|lift jatuh|pintu lift tertutup','Pergerakan naik-turun dapat mencerminkan proses, hambatan, atau perubahan tanggung jawab.','biasa'],
+    ['membunuh ular|membunuh hantu|membunuh monster|membunuh orang jahat|membela diri','Mungkin menggambarkan usaha menghadapi rasa takut atau mengakhiri konflik; bukan petunjuk untuk bertindak.','biasa']
+  ];
+  for (const [keywords, meaning, category] of extraMeaningGroups) {
+    for (const keyword of keywords.split('|')) meanings[keyword] = [meaning, category];
+  }
+  const $ = id => document.getElementById(id);
+  let dreams = loadDreams();
+  function loadDreams(){ try { const d=JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); return Array.isArray(d)?d.filter(x=>x&&x.id&&x.story):[]; } catch { return []; } }
+  function persist(){ localStorage.setItem(STORAGE_KEY,JSON.stringify(dreams)); }
+  function localToday(){const d=new Date();return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
+  function escapeHtml(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  function friendlyDate(s){if(!s)return 'Tanggal tidak diketahui';const d=new Date(s+'T00:00:00');return Number.isNaN(+d)?s:new Intl.DateTimeFormat('id-ID',{day:'numeric',month:'long',year:'numeric'}).format(d)}
+  function showToast(msg){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),2300)}
+  function render(){const q=$('search').value.trim().toLowerCase();const rows=dreams.filter(d=>(d.story+' '+d.name).toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));$('count').textContent=`${dreams.length} ${dreams.length===1?'mimpi':'mimpi'}`;const list=$('dreamList');if(!rows.length){list.innerHTML=`<div class="empty"><span>${dreams.length?'🔎':'🌌'}</span>${dreams.length?'Belum ada cerita yang cocok.':'Belum ada mimpi tersimpan.'}<br>${dreams.length?'Coba kata pencarian lain.':'Yuk, catat mimpi pertamamu!'}</div>`;return}list.innerHTML=rows.map(d=>`<article class="dream-card"><div class="dream-meta"><span>📅 ${escapeHtml(friendlyDate(d.date))}</span><span>oleh ${escapeHtml(d.name)}</span></div><h3>${escapeHtml(d.story)}</h3><div class="card-actions"><button data-action="meaning" data-id="${escapeHtml(d.id)}">🔮 Tafsir</button><button data-action="edit" data-id="${escapeHtml(d.id)}">✏️ Ubah</button><button class="delete" data-action="delete" data-id="${escapeHtml(d.id)}">Hapus</button></div></article>`).join('')}
+  function resetForm(){ $('dreamForm').reset(); $('dreamId').value=''; $('date').value=localToday(); $('formTitle').textContent='Mimpi apa yang kamu ingat?'; $('saveBtn').textContent='Simpan ke jurnal ✨'; $('cancelEdit').hidden=true; }
+  function beginEdit(d){$('dreamId').value=d.id;$('name').value=d.name;$('date').value=d.date;$('story').value=d.story;$('formTitle').textContent='Ubah ceritamu';$('saveBtn').textContent='Simpan perubahan';$('cancelEdit').hidden=false;$('formPanel').scrollIntoView({behavior:'smooth',block:'start'});$('name').focus({preventScroll:true})}
+  $('date').value=localToday();render();
+  $('dreamForm').addEventListener('submit',e=>{e.preventDefault();const id=$('dreamId').value;const item={id:id||crypto.randomUUID(),name:$('name').value.trim(),date:$('date').value,story:$('story').value.trim()};if(!item.name||!item.date||!item.story)return;if(id){dreams=dreams.map(d=>d.id===id?item:d);showToast('Catatan berhasil diperbarui ✨')}else{dreams.push(item);showToast('Mimpi tersimpan di jurnal ✨')}persist();render();resetForm()});
+  $('cancelEdit').addEventListener('click',resetForm);$('search').addEventListener('input',render);$('startBtn').addEventListener('click',()=>$('name').focus());
+  $('dreamList').addEventListener('click',e=>{const b=e.target.closest('button[data-action]');if(!b)return;const d=dreams.find(x=>x.id===b.dataset.id);if(!d)return;if(b.dataset.action==='edit')beginEdit(d);if(b.dataset.action==='delete'){if(confirm('Hapus catatan mimpi ini?')){dreams=dreams.filter(x=>x.id!==d.id);persist();render();showToast('Catatan mimpi dihapus')}}if(b.dataset.action==='meaning'){const text=d.story.toLowerCase();let match=Object.keys(meanings).sort((a,b)=>b.length-a.length).find(k=>text.includes(k));const [meaning,category]=match?meanings[match]:['Belum ada kata kunci yang cocok. Kamu bisa menjadikan mimpi ini bahan refleksi tentang perasaanmu saat ini.','biasa'];$('meaningStory').textContent=d.story;$('meaningText').textContent=meaning;$('meaningCategory').textContent=category==='indah'?'🌟 Mimpi indah':category==='buruk'?'🌧️ Mimpi menantang':'☁️ Mimpi biasa';$('meaningDialog').showModal()}});
+  document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>b.closest('dialog').close()));document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d)d.close()}));
+  $('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(dreams,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='memory-of-dreams.json';a.click();URL.revokeObjectURL(a.href);showToast('Salinan jurnal berhasil diunduh')});
+  $('importBtn').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const data=JSON.parse(await f.text());if(!Array.isArray(data)||data.some(d=>!d.name||!d.story||!d.date))throw Error();const normalized=data.map(d=>({id:d.id||crypto.randomUUID(),name:String(d.name),story:String(d.story),date:String(d.date)}));if(confirm(`Impor ${normalized.length} catatan? Jurnal di perangkat ini akan digantikan.`)){dreams=normalized;persist();render();showToast('Jurnal berhasil dipulihkan')}}catch{showToast('File tidak valid. Pilih file ekspor Memory of Dreams.')}e.target.value=''});
+</script>
+</body>
+</html>
